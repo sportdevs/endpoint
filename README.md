@@ -23,7 +23,7 @@ const endpoint = require("@sportdevs/endpoint").default;
 You can chain all the transforms to create a complex query, like this:
 
 ```js
-endpoint("events")
+endpoint("matches")
   .property("season_id")
   .equals(18820)
   .or((obj) =>
@@ -35,7 +35,7 @@ endpoint("events")
   )
   .select("away_team_id", "home_team_id", "away_team_score", "home_team_score")
   .order((o) => o.property("id").descending);
-// events?season_id=eq.18820&or=(away_team_score->current.gt.3,home_team_score->current.gt.3)&select=away_team_id,home_team_id,away_team_score,home_team_score&order=id.desc
+// matches?season_id=eq.18820&or=(away_team_score->current.gt.3,home_team_score->current.gt.3)&select=away_team_id,home_team_id,away_team_score,home_team_score&order=id.desc
 ```
 
 ### `endpoint(name)`
@@ -43,7 +43,7 @@ endpoint("events")
 Creates an object that is associated with an endpoint.
 
 ```js
-endpoint("events");
+endpoint("matches");
 ```
 
 ### `toString()`
@@ -51,7 +51,7 @@ endpoint("events");
 Turns an endpoint object to a string.
 
 ```js
-endpoint("events").toString();
+endpoint("matches").toString();
 ```
 
 ## Response Transforms
@@ -61,7 +61,7 @@ endpoint("events").toString();
 Skips `value` amount of elements.
 
 ```js
-endpoint("events").offset(1);
+endpoint("matches").offset(1);
 // events?offset=1
 ```
 
@@ -70,8 +70,8 @@ endpoint("events").offset(1);
 Limits the response to `value` amount of objects.
 
 ```js
-endpoint("events").limit(1);
-// events?limit=1
+endpoint("matches").limit(1);
+// matches?limit=1
 ```
 
 ### `select(...props)`
@@ -79,8 +79,8 @@ endpoint("events").limit(1);
 Makes the returned object only contain the selected properties.
 
 ```js
-endpoint("events").select("home_team_id", "away_team_id");
-// events?select=home_team_id,away_team_id
+endpoint("matches").select("home_team_id", "away_team_id");
+// matches?select=home_team_id,away_team_id
 ```
 
 ## Property Transforms
@@ -88,8 +88,8 @@ endpoint("events").select("home_team_id", "away_team_id");
 > All the property transforms can be negated using the `not.` prefix.
 >
 > ```js
-> endpoint("events").property("id").not.lessThan(10);
-> // events?id=not.lt.10
+> endpoint("matches").property("id").not.lessThan(10);
+> // matches?id=not.lt.10
 > ```
 
 ### `property(name)`
@@ -97,8 +97,8 @@ endpoint("events").select("home_team_id", "away_team_id");
 Applies a transform using a property.
 
 ```js
-endpoint("events").property("id").lessThan(10);
-// events?id=lt.10
+endpoint("matches").property("id").lessThan(10);
+// matches?id=lt.10
 ```
 
 ### `equals(value)`
@@ -106,8 +106,8 @@ endpoint("events").property("id").lessThan(10);
 Checks if a property is equal to `value`.
 
 ```js
-endpoint("events").property("id").equals(10);
-// events?id=eq.10
+endpoint("matches").property("id").equals(10);
+// matches?id=eq.10
 ```
 
 ### `greaterThan(value)`
@@ -115,8 +115,8 @@ endpoint("events").property("id").equals(10);
 Checks if a property is greater than `value`.
 
 ```js
-endpoint("events").property("id").greaterThan(10);
-// events?id=gt.10
+endpoint("matches").property("id").greaterThan(10);
+// matches?id=gt.10
 ```
 
 ### `greaterThanOrEqual(value)`
@@ -124,8 +124,8 @@ endpoint("events").property("id").greaterThan(10);
 Checks if a property is greater than or equal to `value`.
 
 ```js
-endpoint("events").property("id").greaterThanOrEqual(10);
-// events?id=gte.10
+endpoint("matches").property("id").greaterThanOrEqual(10);
+// matches?id=gte.10
 ```
 
 ### `lessThan(value)`
@@ -133,8 +133,8 @@ endpoint("events").property("id").greaterThanOrEqual(10);
 Checks if a property is less than `value`.
 
 ```js
-endpoint("events").property("id").lessThan(10);
-// events?id=lt.10
+endpoint("matches").property("id").lessThan(10);
+// matches?id=lt.10
 ```
 
 ### `lessThanOrEqual(value)`
@@ -142,8 +142,8 @@ endpoint("events").property("id").lessThan(10);
 Checks if a property is less than or equal to `value`.
 
 ```js
-endpoint("events").property("id").lessThanOrEqual(10);
-// events?id=lte.10
+endpoint("matches").property("id").lessThanOrEqual(10);
+// matches?id=lte.10
 ```
 
 ### `like(exp)`
@@ -187,7 +187,7 @@ endpoint("players").property("first_name").insensitive.match("^A");
 Checks if the property is inside the array `value`.
 
 ```js
-endpoint("events").property("id").in(1, 2, 3);
+endpoint("matches").property("id").in(1, 2, 3);
 // events?id=in.(1,2,3)
 ```
 
@@ -196,8 +196,8 @@ endpoint("events").property("id").in(1, 2, 3);
 Checks if the property is exactly equal to `value`.
 
 ```js
-endpoint("events").property("id").is("null");
-// events?id=is.null
+endpoint("matches").property("id").is("null");
+// matches?id=is.null
 ```
 
 ## Logical Transforms
@@ -205,10 +205,10 @@ endpoint("events").property("id").is("null");
 > All the logical transforms can be negated with the `not.` prefix.
 >
 > ```js
-> endpoint("events").not.or((obj) =>
+> endpoint("matches").not.or((obj) =>
 >   obj.property("id").lessThan(10).property("id").not.equals(1)
 > );
-> // events?not.or=(id.lt.10,id.not.eq.1)
+> // matches?not.or=(id.lt.10,id.not.eq.1)
 > ```
 
 ### `and(fn)`
@@ -216,10 +216,10 @@ endpoint("events").property("id").is("null");
 Combines the transforms using the logical `and` operator.
 
 ```js
-endpoint("events").and((obj) =>
+endpoint("matches").and((obj) =>
   obj.property("id").lessThan(10).property("id").not.equals(1)
 );
-// events?and=(id.lt.10,id.not.eq.1)
+// matches?and=(id.lt.10,id.not.eq.1)
 ```
 
 ### `or(fn)`
@@ -227,10 +227,10 @@ endpoint("events").and((obj) =>
 Combines the transforms using the logical `or` operator.
 
 ```js
-endpoint("events").or((obj) =>
+endpoint("matches").or((obj) =>
   obj.property("id").lessThan(10).property("id").not.equals(1)
 );
-// events?or=(id.lt.10,id.not.eq.1)
+// matches?or=(id.lt.10,id.not.eq.1)
 ```
 
 ## Sort Transforms
@@ -240,8 +240,8 @@ endpoint("events").or((obj) =>
 Applies a sorting transform.
 
 ```js
-endpoint("events").order((obj) => obj.property("id").ascending);
-// events?order=id.asc
+endpoint("matches").order((obj) => obj.property("id").ascending);
+// matches?order=id.asc
 ```
 
 ### `property(name)`
@@ -249,8 +249,8 @@ endpoint("events").order((obj) => obj.property("id").ascending);
 Applies a sorting transform using a property.
 
 ```js
-endpoint("events").order((obj) => obj.property("id").ascending);
-// events?order=id.asc
+endpoint("matches").order((obj) => obj.property("id").ascending);
+// matches?order=id.asc
 ```
 
 ### `ascending`
@@ -258,8 +258,8 @@ endpoint("events").order((obj) => obj.property("id").ascending);
 Sorts the returned objects in ascending order based on a property.
 
 ```js
-endpoint("events").order((obj) => obj.property("id").ascending);
-// events?order=id.asc
+endpoint("matches").order((obj) => obj.property("id").ascending);
+// matches?order=id.asc
 ```
 
 ### `descending`
@@ -267,8 +267,8 @@ endpoint("events").order((obj) => obj.property("id").ascending);
 Sorts the returned objects in descending order based on a property.
 
 ```js
-endpoint("events").order((obj) => obj.property("id").descending);
-// events?order=id.desc
+endpoint("matches").order((obj) => obj.property("id").descending);
+// matches?order=id.desc
 ```
 
 ### `nullsFirst`
@@ -276,10 +276,10 @@ endpoint("events").order((obj) => obj.property("id").descending);
 Makes the null values appear first.
 
 ```js
-endpoint("events").order(
+endpoint("matches").order(
   (obj) => obj.property("id").ascending.property("id").nullsFirst
 );
-// events?order=id.asc.nullsfirst
+// matches?order=id.asc.nullsfirst
 ```
 
 ### `nullsLast`
@@ -287,8 +287,8 @@ endpoint("events").order(
 Makes the null values appear last.
 
 ```js
-endpoint("events").order(
+endpoint("matches").order(
   (obj) => obj.property("id").descending.property("id").nullsLast
 );
-// events?order=id.desc.nullslast
+// matches?order=id.desc.nullslast
 ```
